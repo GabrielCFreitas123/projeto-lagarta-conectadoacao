@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locais - ConectaDoação</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/locais.js" defer></script>
+</head>
+<body>
+    <header class="topo">
+        <a class="logo" href="index.html">Conecta<span>Doação</span></a>
+        <nav class="menu" aria-label="Menu principal">
+            <a href="index.html">Início</a>
+            <a href="como-funciona.html">Como funciona</a>
+            <a href="locais.html" aria-current="page">Locais</a>
+            <a href="quero-doar.html">Quero doar</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="secao secao-clara">
+            <section class="container">
+                <header class="titulo-secao">
+                    <span>Pontos de doação</span>
+                    <h1>Encontre um ponto de doação</h1>
+                    <p>Encontre opções de doação em São Paulo (SP) e confirme os detalhes com a instituição antes de sair.</p>
+                </header>
+
+                <section class="resumo-doacao" id="resumo-doacao" aria-labelledby="titulo-resumo-doacao" hidden>
+                    <h2 id="titulo-resumo-doacao">Itens da sua cesta</h2>
+                    <ul id="resumo-itens"></ul>
+                    <a href="quero-doar.html">Alterar minha cesta</a>
+                </section>
+
+                <div class="filtros-locais" hidden>
+                    <div class="filtro-campo">
+                        <label for="busca-local">Buscar local ou item</label>
+                        <input id="busca-local" type="search" placeholder="Ex.: livros, agasalhos">
+                    </div>
+                    <div class="filtro-campo">
+                        <label for="categoria-local">Tipo de doação</label>
+                        <select id="categoria-local">
+                            <option value="">Todos os tipos</option>
+                            <option value="roupas">Roupas</option>
+                            <option value="alimentos">Alimentos</option>
+                            <option value="livros">Livros</option>
+                            <option value="brinquedos">Brinquedos</option>
+                        </select>
+                    </div>
+                    <div class="filtro-campo">
+                        <label for="regiao-local">Bairro ou coleta</label>
+                        <select id="regiao-local">
+                            <option value="">Todas as opções</option>
+                            <option value="jaguare">Jaguaré</option>
+                            <option value="vila-clementino">Vila Clementino</option>
+                            <option value="itaquera">Itaquera</option>
+                            <option value="retirada">Retirada agendada</option>
+                        </select>
+                    </div>
+                </div>
+                <p id="resultado-locais" class="resultado-locais" role="status" aria-live="polite" hidden></p>
+
+                <section class="grade-locais">
+                    <article class="local-card" data-categorias="roupas alimentos brinquedos" data-regiao="jaguare">
+                        <span class="categoria">Roupas · Alimentos · Brinquedos</span>
+                        <h2>Fundo Social de São Paulo</h2>
+                        <p>Recebe alimentos não perecíveis, roupas e calçados em bom estado e brinquedos.</p>
+                        <p class="detalhe"><strong>Entrega:</strong> Av. Marechal Mário Guedes, 301, Jaguaré. Segunda a sexta, das 8h às 16h.</p>
+                        <p><strong>Contato:</strong> <a href="tel:+551121936966">(11) 2193-6966</a>. Avise sobre a doação antes de ir.</p>
+                        <a class="fonte-local" href="https://www.fundosocial.sp.gov.br/doacoes/" target="_blank" rel="noopener noreferrer">Ver orientações oficiais</a>
+                    </article>
+                    <article class="local-card" data-categorias="roupas livros brinquedos" data-regiao="vila-clementino">
+                        <span class="categoria">Roupas · Livros · Brinquedos</span>
+                        <h2>Bazar Boa Escolha — GRAACC</h2>
+                        <p>Recebe roupas, brinquedos e livros em excelente estado. Não aceita livros didáticos nem alimentos avulsos.</p>
+                        <p class="detalhe"><strong>Entrega:</strong> Rua Pedro de Toledo, 276, Vila Clementino. Segunda a sexta, das 8h às 17h.</p>
+                        <p><strong>Contato:</strong> <a href="tel:+551150808514">(11) 5080-8514</a>.</p>
+                        <a class="fonte-local" href="https://graacc.org.br/bazar/" target="_blank" rel="noopener noreferrer">Ver orientações oficiais</a>
+                    </article>
+                    <article class="local-card" data-categorias="roupas brinquedos" data-regiao="itaquera">
+                        <span class="categoria">Roupas · Brinquedos</span>
+                        <h2>Instituto Aba Holiness</h2>
+                        <p>Recebe roupas, calçados e brinquedos novos ou usados em bom estado para seus bazares beneficentes.</p>
+                        <p class="detalhe"><strong>Entrega com agendamento:</strong> Rua Alayde de Souza Costa, 170, Itaquera.</p>
+                        <p><strong>Contato:</strong> <a href="tel:+5511919595327">(11) 91959-5327</a>.</p>
+                        <a class="fonte-local" href="https://www.institutoaba.org/participe" target="_blank" rel="noopener noreferrer">Ver orientações oficiais</a>
+                    </article>
+                    <article class="local-card" data-categorias="roupas livros brinquedos" data-regiao="retirada">
+                        <span class="categoria">Roupas · Livros · Brinquedos</span>
+                        <h2>Unibes Bazar</h2>
+                        <p>Recebe roupas, livros e brinquedos em bom estado. Oferece retirada gratuita agendada na capital e Grande São Paulo.</p>
+                        <p class="detalhe"><strong>Agendamento:</strong> segunda a sexta, das 8h às 17h, pelo telefone ou site.</p>
+                        <p><strong>Contato:</strong> <a href="tel:+551133117266">(11) 3311-7266</a>.</p>
+                        <a class="fonte-local" href="https://unibes.org.br/a-unibes/unibes-bazar/" target="_blank" rel="noopener noreferrer">Agendar e ver orientações oficiais</a>
+                    </article>
+                </section>
+
+                <p class="aviso">Informações consultadas em setembro de 2026 nas páginas oficiais. Confirme aceitação, horário e forma de entrega antes de levar os itens.</p>
+            </section>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <section class="container rodape-conteudo">
+            <section>
+                <strong>ConectaDoação</strong>
+                <p>Desenvolvido por Gabriel Freitas — Matrícula: 10771415</p>
+            </section>
+            <p>© 2026 ConectaDoação</p>
+        </section>
+    </footer>
+</body>
+</html>

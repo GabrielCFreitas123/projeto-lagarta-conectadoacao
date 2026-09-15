@@ -1,0 +1,1 @@
+Coloque nesta pasta as imagens do protótipo inicial do grupo, por exemplo: prototipo-home.png e prototipo-doacoes.png.

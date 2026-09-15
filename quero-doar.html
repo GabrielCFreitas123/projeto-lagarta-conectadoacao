@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quero doar - ConectaDoação</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/doacoes.js" defer></script>
+</head>
+<body>
+    <header class="topo">
+        <a class="logo" href="index.html">Conecta<span>Doação</span></a>
+        <nav class="menu" aria-label="Menu principal">
+            <a href="index.html">Início</a>
+            <a href="como-funciona.html">Como funciona</a>
+            <a href="locais.html">Locais</a>
+            <a href="quero-doar.html" aria-current="page">Quero doar</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="secao">
+            <section class="container">
+                <header class="titulo-secao">
+                    <span>Doação consciente</span>
+                    <h1>O que você quer doar?</h1>
+                    <p>Escolha uma categoria para conhecer os itens que você pode doar.</p>
+                </header>
+
+                <section class="escolha-doacao" aria-label="Categorias de doação" hidden>
+                    <fieldset class="categorias-doacao">
+                        <legend>Escolha uma categoria</legend>
+                        <button type="button" data-categoria="roupas" aria-pressed="true" aria-controls="tipos-doacao"><span aria-hidden="true">👕</span> Roupas</button>
+                        <button type="button" data-categoria="alimentos" aria-pressed="false" aria-controls="tipos-doacao"><span aria-hidden="true">🥫</span> Alimentos</button>
+                        <button type="button" data-categoria="livros" aria-pressed="false" aria-controls="tipos-doacao"><span aria-hidden="true">📚</span> Livros</button>
+                        <button type="button" data-categoria="brinquedos" aria-pressed="false" aria-controls="tipos-doacao"><span aria-hidden="true">🧸</span> Brinquedos</button>
+                    </fieldset>
+                    <section id="tipos-doacao" aria-live="polite" aria-atomic="true" aria-labelledby="titulo-tipos">
+                        <h2 id="titulo-tipos"></h2>
+                        <p id="dica-doacao"></p>
+                        <ul class="lista-tipos" id="lista-tipos"></ul>
+                    </section>
+                    <section class="cesta-doacao" aria-labelledby="titulo-cesta">
+                        <h2 id="titulo-cesta">Sua cesta de doações</h2>
+                        <p id="cesta-vazia">Você ainda não escolheu nenhum item.</p>
+                        <ul id="itens-cesta" aria-live="polite"></ul>
+                        <div class="cesta-resumo" hidden>
+                            <strong id="total-cesta"></strong>
+                            <button id="limpar-cesta" type="button">Esvaziar cesta</button>
+                        </div>
+                    </section>
+                    <a class="botao botao-principal" id="ver-locais" href="locais.html">Encontrar pontos de doação</a>
+                </section>
+                <noscript><p class="aviso">Ative o JavaScript para explorar os tipos de doação. As orientações continuam disponíveis abaixo.</p></noscript>
+
+                <section class="grade-orientacoes">
+                    <article class="orientacao-card">
+                        <span class="categoria">Roupas</span>
+                        <h2>Separe peças limpas</h2>
+                        <p>Doe roupas em bom estado e organize-as por tipo ou tamanho.</p>
+                    </article>
+                    <article class="orientacao-card">
+                        <span class="categoria">Alimentos</span>
+                        <h2>Confira a validade</h2>
+                        <p>Não doe embalagens abertas, vencidas ou danificadas.</p>
+                    </article>
+                    <article class="orientacao-card">
+                        <span class="categoria">Livros</span>
+                        <h2>Verifique as condições</h2>
+                        <p>Os livros devem estar completos e em condições de leitura.</p>
+                    </article>
+                    <article class="orientacao-card">
+                        <span class="categoria">Brinquedos</span>
+                        <h2>Priorize a segurança</h2>
+                        <p>Doe brinquedos limpos, completos e sem peças perigosas.</p>
+                    </article>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <section class="container rodape-conteudo">
+            <section>
+                <strong>ConectaDoação</strong>
+                <p>Desenvolvido por Gabriel Freitas — Matrícula: 10771415</p>
+            </section>
+            <p>© 2026 ConectaDoação</p>
+        </section>
+    </footer>
+</body>
+</html>

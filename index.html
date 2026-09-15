@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projeto ConectaDoação">
+    <title>ConectaDoação</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/inicio.js" defer></script>
+</head>
+<body>
+    <header class="topo">
+        <a class="logo" href="index.html">Conecta<span>Doação</span></a>
+        <nav class="menu" aria-label="Menu principal">
+            <a href="index.html" aria-current="page">Início</a>
+            <a href="como-funciona.html">Como funciona</a>
+            <a href="locais.html">Locais</a>
+            <a href="quero-doar.html">Quero doar</a>
+            <a href="sobre.html">Sobre</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <section class="container hero-grid">
+                <section class="hero-texto">
+                    <span class="selo">Projeto extensionista</span>
+                    <h1>Doe o que você não usa. Ajude quem precisa.</h1>
+                    <p>O ConectaDoação aproxima pessoas interessadas em doar de instituições e iniciativas sociais.</p>
+
+                    <nav class="hero-acoes" aria-label="Ações de doação">
+                        <a class="botao botao-principal" href="locais.html">Encontrar locais</a>
+                        <a class="botao botao-secundario" href="quero-doar.html">Quero doar</a>
+                    </nav>
+
+                    <ul class="hero-dados" aria-label="O projeto em números">
+                        <li>
+                            <strong>4</strong>
+                            <span>categorias</span>
+                        </li>
+                        <li>
+                            <strong>4</strong>
+                            <span>opções em São Paulo</span>
+                        </li>
+                        <li>
+                            <strong>100%</strong>
+                            <span>gratuito</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="hero-card">
+                    <p class="icone-grande" aria-hidden="true">❤</p>
+                    <h2>Uma pequena ação pode gerar um grande impacto.</h2>
+                    <p>Separe itens em bom estado e encontre uma categoria de doação.</p>
+                </section>
+            </section>
+        </section>
+
+        <section class="secao escolha-inicio" id="escolha-inicio" hidden>
+            <div class="container">
+                <header class="titulo-secao">
+                    <span>Comece por aqui</span>
+                    <h2>O que você pretende doar?</h2>
+                    <p>Escolha uma categoria para ver uma orientação e montar sua cesta.</p>
+                </header>
+                <div class="categorias-inicio" role="group" aria-label="Tipos de doação">
+                    <button type="button" data-categoria="roupas" aria-pressed="true">👕 Roupas</button>
+                    <button type="button" data-categoria="alimentos" aria-pressed="false">🥫 Alimentos</button>
+                    <button type="button" data-categoria="livros" aria-pressed="false">📚 Livros</button>
+                    <button type="button" data-categoria="brinquedos" aria-pressed="false">🧸 Brinquedos</button>
+                </div>
+                <div class="orientacao-inicio" aria-live="polite">
+                    <h3 id="categoria-escolhida"></h3>
+                    <p id="dica-inicio"></p>
+                    <a class="botao botao-principal" id="continuar-doacao" href="quero-doar.html">Escolher itens para doar</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <section class="container rodape-conteudo">
+            <section>
+                <strong>ConectaDoação</strong>
+                <p>Projeto acadêmico desenvolvido com HTML5, CSS3 e JavaScript.</p>
+                <p>Desenvolvido por Gabriel Freitas — Matrícula: 10771415</p>
+            </section>
+            <p>© 2026 ConectaDoação</p>
+        </section>
+    </footer>
+</body>
+</html>
