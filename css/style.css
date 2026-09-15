@@ -572,23 +572,110 @@ a:focus-visible {
 
 .cesta-doacao {
     margin-bottom: 24px;
-    padding: 24px;
-    border: 1px solid #dce5df;
-    border-radius: 12px;
-    background: #edf7f1;
+    overflow: hidden;
+    border: 1px solid #cfe2d6;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 12px 30px rgba(36, 122, 77, 0.08);
 }
 
-.cesta-doacao h2 { margin-bottom: 8px; }
-.cesta-doacao ul { list-style: none; }
+.cesta-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 24px;
+    color: white;
+    background: linear-gradient(135deg, #247a4d, #17623b);
+}
+
+.cesta-icone {
+    display: grid;
+    place-items: center;
+    flex: 0 0 50px;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 1.65rem;
+}
+
+.cesta-cabecalho h2 {
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.cesta-cabecalho p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.92rem;
+}
+
+.cesta-vazia {
+    padding: 34px 24px;
+    color: #647169;
+    text-align: center;
+}
+
+.cesta-vazia > span {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 10px;
+    border: 1px dashed #91b5a0;
+    border-radius: 50%;
+    color: #247a4d;
+    background: #edf7f1;
+    font-size: 1.5rem;
+}
+
+.cesta-vazia p { color: #34463c; font-weight: bold; }
+.cesta-vazia small { display: block; margin-top: 2px; }
+
+.cesta-doacao ul {
+    display: grid;
+    gap: 10px;
+    padding: 18px 24px 8px;
+    list-style: none;
+}
 
 .cesta-doacao li {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 12px 0;
-    border-top: 1px solid #cbded2;
+    padding: 14px 16px;
+    border: 1px solid #e1ebe5;
+    border-radius: 12px;
+    background: #f8fbf9;
+}
+
+.cesta-item-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cesta-item-nome {
+    color: #243029;
+    font-weight: bold;
+}
+
+.cesta-item-detalhes {
+    color: #647169;
+    font-size: 0.875rem;
+    text-transform: capitalize;
+}
+
+.cesta-doacao .cesta-remover {
+    min-height: 36px;
+    border-color: #d6a5a5;
+    color: #9b3434;
+    background: white;
+}
+
+.cesta-doacao .cesta-remover:hover {
+    border-color: #c77e7e;
+    background: #fff1f1;
 }
 
 .cesta-resumo {
@@ -597,7 +684,139 @@ a:focus-visible {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-top: 12px;
-    padding-top: 16px;
-    border-top: 1px solid #cbded2;
+    margin-top: 10px;
+    padding: 18px 24px 22px;
+    border-top: 1px solid #e1ebe5;
+    background: #f3f8f5;
+}
+
+.cesta-resumo > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.cesta-resumo > div > span {
+    color: #647169;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.cesta-resumo strong { color: #17623b; font-size: 1.15rem; }
+
+@media (max-width: 600px) {
+    .cesta-cabecalho { align-items: flex-start; padding: 20px; }
+    .cesta-cabecalho p { font-size: 0.85rem; }
+    .cesta-doacao ul { padding: 14px 14px 6px; }
+    .cesta-doacao li { align-items: flex-start; }
+    .cesta-resumo { padding: 16px 14px 18px; }
+}
+
+/* Login */
+.menu .menu-entrar {
+    padding-inline: 16px;
+    color: white;
+    background: #247a4d;
+}
+
+.menu .menu-entrar:hover,
+.menu .menu-entrar[aria-current="page"] {
+    color: white;
+    background: #17623b;
+}
+
+.pagina-login {
+    display: grid;
+    place-items: center;
+    padding: 60px 16px;
+    background: linear-gradient(135deg, #edf7f1, #f8fbf9);
+}
+
+.login-card {
+    width: min(100%, 440px);
+    padding: 36px;
+    border: 1px solid #dce5df;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 18px 45px rgba(36, 122, 77, 0.12);
+}
+
+.login-icone {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 20px;
+    border-radius: 16px;
+    background: #dcefe4;
+    font-size: 1.7rem;
+}
+
+.login-card h1 {
+    margin: 4px 0 8px;
+    font-size: 1.8rem;
+    line-height: 1.2;
+}
+
+.login-card header > p { color: #647169; }
+.login-card form { margin-top: 26px; }
+
+.campo-login { margin-bottom: 18px; }
+
+.campo-login label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.campo-login input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 12px;
+    border: 1px solid #b9c9bf;
+    border-radius: 8px;
+    color: #243029;
+    background: white;
+    font: inherit;
+}
+
+.campo-login input:focus-visible {
+    outline: 3px solid #aa6b00;
+    outline-offset: 2px;
+}
+
+.login-botao {
+    width: 100%;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+.login-botao:hover { background: #17623b; }
+
+.mensagem-login {
+    min-height: 24px;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.mensagem-login.erro { color: #9b3434; }
+.mensagem-login.sucesso { color: #247a4d; }
+
+.login-ajuda {
+    padding-top: 18px;
+    border-top: 1px solid #e1ebe5;
+    color: #647169;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.login-ajuda a { color: #247a4d; font-weight: bold; }
+
+@media (max-width: 600px) {
+    .pagina-login { padding: 32px 16px; }
+    .login-card { padding: 26px 22px; }
 }

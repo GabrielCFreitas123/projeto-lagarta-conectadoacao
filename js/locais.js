@@ -1,76 +1,77 @@
-const filtros = document.querySelector('.filtros-locais');
 const busca = document.querySelector('#busca-local');
 const categoria = document.querySelector('#categoria-local');
 const regiao = document.querySelector('#regiao-local');
 const resultado = document.querySelector('#resultado-locais');
-const resumo = document.querySelector('#resumo-doacao');
-const resumoItens = document.querySelector('#resumo-itens');
-const locais = [...document.querySelectorAll('.local-card')];
-const categoriasValidas = new Set(['roupas', 'alimentos', 'livros', 'brinquedos']);
-const categoriasCesta = new Set(
-    (new URLSearchParams(window.location.search).get('categorias') || '')
-        .split(',')
-        .filter((nome) => categoriasValidas.has(nome))
-);
+const locais = document.querySelectorAll('.local-card');
 
-if (categoriasCesta.size) {
-    const opcaoCesta = document.createElement('option');
-    opcaoCesta.value = 'cesta';
-    opcaoCesta.textContent = 'Tipos da minha cesta';
-    categoria.add(opcaoCesta, 1);
+const parametros = new URLSearchParams(window.location.search);
+const categoriasCesta = (parametros.get('categorias') || '').split(',').filter(Boolean);
+const itensCesta = JSON.parse(localStorage.getItem('conectadoacao-cesta-v1')) || [];
+
+// Mostra os itens escolhidos na página anterior.
+if (itensCesta.length > 0) {
+    const resumo = document.querySelector('#resumo-doacao');
+    const listaResumo = document.querySelector('#resumo-itens');
+
+    itensCesta.forEach(function (item) {
+        const linha = document.createElement('li');
+        linha.textContent = item.nome + ' (' + item.categoria + ') — ' + item.quantidade + ' unidade(s)';
+        listaResumo.append(linha);
+    });
+
+    resumo.hidden = false;
+}
+
+// Adiciona ao filtro a opção de usar as categorias da cesta.
+if (categoriasCesta.length > 0) {
+    const opcao = document.createElement('option');
+    opcao.value = 'cesta';
+    opcao.textContent = 'Tipos da minha cesta';
+    categoria.add(opcao, 1);
     categoria.value = 'cesta';
 }
 
-try {
-    const itensSalvos = JSON.parse(localStorage.getItem('conectadoacao-cesta-v1') || '[]');
-    if (Array.isArray(itensSalvos)) {
-        itensSalvos.forEach((item) => {
-            if (!item || !categoriasValidas.has(item.categoria)
-                || (categoriasCesta.size && !categoriasCesta.has(item.categoria))
-                || typeof item.nome !== 'string' || !Number.isSafeInteger(item.quantidade)
-                || item.quantidade < 1) return;
-
-            const linha = document.createElement('li');
-            linha.textContent = `${item.nome} (${item.categoria}) — ${item.quantidade} ${item.quantidade === 1 ? 'unidade' : 'unidades'}`;
-            resumoItens.append(linha);
-        });
-        resumo.hidden = resumoItens.children.length === 0;
-    }
-} catch {
-    // A lista de locais continua disponível se o navegador bloquear o armazenamento.
-}
-
-function normalizar(texto) {
+function simplificarTexto(texto) {
     return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
 function filtrarLocais() {
-    const termo = normalizar(busca.value.trim());
-    const tipo = categoria.value;
-    const bairro = regiao.value;
-    let encontrados = 0;
+    const textoBuscado = simplificarTexto(busca.value);
+    const categoriaEscolhida = categoria.value;
+    const regiaoEscolhida = regiao.value;
+    let quantidade = 0;
 
-    locais.forEach((local) => {
+    locais.forEach(function (local) {
         const categoriasLocal = local.dataset.categorias.split(' ');
-        const correspondeCategoria = !tipo || (tipo === 'cesta'
-            ? categoriasLocal.some((nome) => categoriasCesta.has(nome))
-            : categoriasLocal.includes(tipo));
-        const corresponde = correspondeCategoria
-            && (!bairro || local.dataset.regiao === bairro)
-            && normalizar(local.textContent).includes(termo);
-        local.hidden = !corresponde;
-        if (corresponde) encontrados += 1;
+        let aceitaCategoria = true;
+
+        if (categoriaEscolhida === 'cesta') {
+            aceitaCategoria = categoriasCesta.some(function (nome) {
+                return categoriasLocal.includes(nome);
+            });
+        } else if (categoriaEscolhida) {
+            aceitaCategoria = categoriasLocal.includes(categoriaEscolhida);
+        }
+
+        const aceitaRegiao = !regiaoEscolhida || local.dataset.regiao === regiaoEscolhida;
+        const aceitaBusca = simplificarTexto(local.textContent).includes(textoBuscado);
+        const mostrar = aceitaCategoria && aceitaRegiao && aceitaBusca;
+
+        local.hidden = !mostrar;
+        if (mostrar) quantidade++;
     });
 
-    const prefixo = tipo === 'cesta' ? 'Para os tipos da sua cesta: ' : '';
-    resultado.textContent = encontrados === 0
-        ? 'Nenhum local encontrado. Tente outra busca ou ajuste os filtros.'
-        : `${prefixo}${encontrados} ${encontrados === 1 ? 'local encontrado' : 'locais encontrados'}.`;
+    if (quantidade === 0) {
+        resultado.textContent = 'Nenhum local encontrado.';
+    } else {
+        resultado.textContent = quantidade + ' local(is) encontrado(s).';
+    }
 }
 
 busca.addEventListener('input', filtrarLocais);
 categoria.addEventListener('change', filtrarLocais);
 regiao.addEventListener('change', filtrarLocais);
-filtros.hidden = false;
+
+document.querySelector('.filtros-locais').hidden = false;
 resultado.hidden = false;
 filtrarLocais();

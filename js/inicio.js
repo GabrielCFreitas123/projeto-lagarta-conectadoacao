@@ -1,3 +1,4 @@
+// Textos mostrados quando o usuário escolhe uma categoria.
 const orientacoes = {
     roupas: ['Roupas', 'Separe peças limpas e em bom estado.'],
     alimentos: ['Alimentos', 'Confira se as embalagens estão fechadas e dentro da validade.'],
@@ -5,25 +6,28 @@ const orientacoes = {
     brinquedos: ['Brinquedos', 'Separe brinquedos limpos, completos e seguros.']
 };
 
-const secaoInicio = document.querySelector('#escolha-inicio');
-const botoesInicio = [...secaoInicio.querySelectorAll('[data-categoria]')];
-const tituloInicio = document.querySelector('#categoria-escolhida');
-const dicaInicio = document.querySelector('#dica-inicio');
-const continuarDoacao = document.querySelector('#continuar-doacao');
+const secao = document.querySelector('#escolha-inicio');
+const botoes = document.querySelectorAll('[data-categoria]');
+const titulo = document.querySelector('#categoria-escolhida');
+const dica = document.querySelector('#dica-inicio');
+const link = document.querySelector('#continuar-doacao');
 
-function escolherCategoria(nome) {
-    const [titulo, dica] = orientacoes[nome];
-    tituloInicio.textContent = titulo;
-    dicaInicio.textContent = dica;
-    continuarDoacao.href = `quero-doar.html?categoria=${encodeURIComponent(nome)}`;
-    botoesInicio.forEach((botao) => {
-        botao.setAttribute('aria-pressed', String(botao.dataset.categoria === nome));
+function escolherCategoria(categoria) {
+    titulo.textContent = orientacoes[categoria][0];
+    dica.textContent = orientacoes[categoria][1];
+    link.href = 'quero-doar.html?categoria=' + categoria;
+
+    botoes.forEach(function (botao) {
+        const selecionado = botao.dataset.categoria === categoria;
+        botao.setAttribute('aria-pressed', selecionado);
     });
 }
 
-botoesInicio.forEach((botao) => {
-    botao.addEventListener('click', () => escolherCategoria(botao.dataset.categoria));
+botoes.forEach(function (botao) {
+    botao.addEventListener('click', function () {
+        escolherCategoria(botao.dataset.categoria);
+    });
 });
 
 escolherCategoria('roupas');
-secaoInicio.hidden = false;
+secao.hidden = false;

@@ -1,155 +1,158 @@
-// Cada categoria reúne seu título, orientação e pares de ícone/nome.
+// Categorias e itens disponíveis para doação.
 const categorias = {
     roupas: {
         titulo: 'Tipos de roupas para doar',
-        dica: 'Separe peças limpas e em bom estado. Confirme com o local quais itens ele recebe.',
+        dica: 'Separe peças limpas e em bom estado.',
         itens: [['👕', 'Camisetas'], ['👖', 'Calças'], ['🧥', 'Agasalhos'], ['👗', 'Vestidos'], ['🩳', 'Bermudas'], ['👶', 'Roupas de bebê'], ['👟', 'Calçados'], ['🧣', 'Cachecóis']]
     },
     alimentos: {
         titulo: 'Tipos de alimentos para doar',
-        dica: 'Escolha alimentos não perecíveis, com embalagem fechada e dentro da validade.',
+        dica: 'Escolha alimentos fechados e dentro da validade.',
         itens: [['🍚', 'Arroz'], ['🫘', 'Feijão'], ['🍝', 'Macarrão'], ['🥫', 'Enlatados'], ['🛢️', 'Óleo de cozinha'], ['🥛', 'Leite em pó']]
     },
     livros: {
         titulo: 'Tipos de livros para doar',
-        dica: 'Confira se os livros estão completos, limpos e em condições de leitura.',
+        dica: 'Confira se os livros estão completos e limpos.',
         itens: [['📘', 'Didáticos'], ['📖', 'Literatura'], ['🧒', 'Infantis'], ['💬', 'Quadrinhos']]
     },
     brinquedos: {
         titulo: 'Tipos de brinquedos para doar',
-        dica: 'Doe brinquedos limpos, completos e seguros para a faixa etária indicada.',
+        dica: 'Doe brinquedos limpos, completos e seguros.',
         itens: [['🧸', 'Pelúcias'], ['🪆', 'Bonecas'], ['🚗', 'Carrinhos'], ['🧩', 'Quebra-cabeças'], ['🎲', 'Jogos de tabuleiro'], ['⚽', 'Bolas']]
     }
 };
 
-const seletor = document.querySelector('.escolha-doacao');
-const botoes = seletor.querySelectorAll('[data-categoria]');
+const secao = document.querySelector('.escolha-doacao');
+const botoes = document.querySelectorAll('[data-categoria]');
 const lista = document.querySelector('#lista-tipos');
-const itensCesta = document.querySelector('#itens-cesta');
+const listaCesta = document.querySelector('#itens-cesta');
 const cestaVazia = document.querySelector('#cesta-vazia');
-const resumoCesta = document.querySelector('.cesta-resumo');
-const totalCesta = document.querySelector('#total-cesta');
-const limparCesta = document.querySelector('#limpar-cesta');
-const verLocais = document.querySelector('#ver-locais');
-const cesta = new Map();
-const chaveArmazenamento = 'conectadoacao-cesta-v1';
+const resumo = document.querySelector('.cesta-resumo');
+const total = document.querySelector('#total-cesta');
+const linkLocais = document.querySelector('#ver-locais');
+
+let cesta = JSON.parse(localStorage.getItem('conectadoacao-cesta-v1')) || [];
 
 function salvarCesta() {
-    try {
-        localStorage.setItem(chaveArmazenamento, JSON.stringify([...cesta.values()]));
-    } catch {
-        // A cesta continua funcionando nesta página se o armazenamento não estiver disponível.
-    }
-}
-
-function recuperarCesta() {
-    try {
-        const salvos = JSON.parse(localStorage.getItem(chaveArmazenamento) || '[]');
-        if (!Array.isArray(salvos)) return;
-
-        salvos.forEach(({ categoria, nome, quantidade }) => {
-            const itemValido = categorias[categoria]?.itens.some(([, item]) => item === nome);
-            if (itemValido && Number.isSafeInteger(quantidade) && quantidade > 0) {
-                cesta.set(`${categoria}:${nome}`, { categoria, nome, quantidade });
-            }
-        });
-    } catch {
-        // Dados antigos ou inválidos não impedem o uso da página.
-    }
+    localStorage.setItem('conectadoacao-cesta-v1', JSON.stringify(cesta));
 }
 
 function mostrarCesta() {
-    const itens = [...cesta.entries()].map(([chave, { categoria, nome, quantidade }]) => {
-        const item = document.createElement('li');
-        const descricao = document.createElement('span');
-        descricao.textContent = `${nome} (${categoria}) — ${quantidade} ${quantidade === 1 ? 'unidade' : 'unidades'}`;
+    listaCesta.innerHTML = '';
+    let quantidadeTotal = 0;
+    const categoriasEscolhidas = [];
 
+    cesta.forEach(function (produto, indice) {
+        quantidadeTotal += produto.quantidade;
+
+        if (!categoriasEscolhidas.includes(produto.categoria)) {
+            categoriasEscolhidas.push(produto.categoria);
+        }
+
+        const item = document.createElement('li');
+        const informacoes = document.createElement('div');
+        const nome = document.createElement('span');
+        const detalhes = document.createElement('span');
         const remover = document.createElement('button');
+
+        informacoes.className = 'cesta-item-info';
+        nome.className = 'cesta-item-nome';
+        detalhes.className = 'cesta-item-detalhes';
+        remover.className = 'cesta-remover';
         remover.type = 'button';
+
+        nome.textContent = produto.nome;
+        detalhes.textContent = produto.categoria + ' · ' + produto.quantidade + ' unidade(s)';
         remover.textContent = 'Remover';
-        remover.setAttribute('aria-label', `Remover ${nome} da cesta`);
-        remover.addEventListener('click', () => {
-            cesta.delete(chave);
+
+        remover.addEventListener('click', function () {
+            cesta.splice(indice, 1);
             mostrarCesta();
         });
 
-        item.append(descricao, remover);
-        return item;
+        informacoes.append(nome, detalhes);
+        item.append(informacoes, remover);
+        listaCesta.append(item);
     });
 
-    itensCesta.replaceChildren(...itens);
-    cestaVazia.hidden = cesta.size > 0;
-    resumoCesta.hidden = cesta.size === 0;
-    const total = [...cesta.values()].reduce((soma, item) => soma + item.quantidade, 0);
-    totalCesta.textContent = `${total} ${total === 1 ? 'item escolhido' : 'itens escolhidos'}`;
-    const categoriasEscolhidas = [...new Set([...cesta.values()].map((item) => item.categoria))];
-    const parametros = new URLSearchParams();
-    if (categoriasEscolhidas.length) parametros.set('categorias', categoriasEscolhidas.join(','));
-    verLocais.href = `locais.html${parametros.size ? `?${parametros}` : ''}`;
+    cestaVazia.hidden = cesta.length > 0;
+    resumo.hidden = cesta.length === 0;
+    total.textContent = quantidadeTotal + ' item(ns) escolhido(s)';
+
+    if (categoriasEscolhidas.length > 0) {
+        linkLocais.href = 'locais.html?categorias=' + categoriasEscolhidas.join(',');
+    } else {
+        linkLocais.href = 'locais.html';
+    }
+
     salvarCesta();
 }
 
-function mostrarCategoria(nome) {
-    const categoria = categorias[nome];
-    document.querySelector('#titulo-tipos').textContent = categoria.titulo;
-    document.querySelector('#dica-doacao').textContent = categoria.dica;
-
-    const itens = categoria.itens.map(([icone, nomeItem], indice) => {
-        const item = document.createElement('li');
-        const simbolo = document.createElement('span');
-        simbolo.setAttribute('aria-hidden', 'true');
-        simbolo.textContent = icone;
-
-        const nomeExibido = document.createElement('strong');
-        nomeExibido.textContent = nomeItem;
-
-        const quantidade = document.createElement('input');
-        quantidade.type = 'number';
-        quantidade.min = '1';
-        quantidade.max = '999';
-        quantidade.required = true;
-        quantidade.value = '1';
-        quantidade.id = `quantidade-${nome}-${indice}`;
-        quantidade.setAttribute('aria-label', `Quantidade de ${nomeItem}`);
-
-        const adicionar = document.createElement('button');
-        adicionar.type = 'button';
-        adicionar.textContent = 'Adicionar à cesta';
-        adicionar.addEventListener('click', () => {
-            if (!quantidade.reportValidity() || !Number.isInteger(quantidade.valueAsNumber)) return;
-
-            const chave = `${nome}:${nomeItem}`;
-            const anterior = cesta.get(chave)?.quantidade || 0;
-            cesta.set(chave, {
-                categoria: nome,
-                nome: nomeItem,
-                quantidade: anterior + quantidade.valueAsNumber
-            });
-            mostrarCesta();
-        });
-
-        item.append(simbolo, nomeExibido, quantidade, adicionar);
-        return item;
+function adicionarNaCesta(categoria, nome, quantidade) {
+    const produto = cesta.find(function (item) {
+        return item.categoria === categoria && item.nome === nome;
     });
 
-    // Substitui a lista anterior para não acumular itens ao trocar a categoria.
-    lista.replaceChildren(...itens);
-    botoes.forEach((botao) => {
-        botao.setAttribute('aria-pressed', String(botao.dataset.categoria === nome));
+    if (produto) {
+        produto.quantidade += quantidade;
+    } else {
+        cesta.push({ categoria: categoria, nome: nome, quantidade: quantidade });
+    }
+
+    mostrarCesta();
+}
+
+function mostrarCategoria(nomeCategoria) {
+    const categoria = categorias[nomeCategoria];
+    document.querySelector('#titulo-tipos').textContent = categoria.titulo;
+    document.querySelector('#dica-doacao').textContent = categoria.dica;
+    lista.innerHTML = '';
+
+    categoria.itens.forEach(function (dadosItem) {
+        const item = document.createElement('li');
+        const icone = document.createElement('span');
+        const nome = document.createElement('strong');
+        const quantidade = document.createElement('input');
+        const adicionar = document.createElement('button');
+
+        icone.textContent = dadosItem[0];
+        nome.textContent = dadosItem[1];
+        quantidade.type = 'number';
+        quantidade.min = '1';
+        quantidade.value = '1';
+        quantidade.setAttribute('aria-label', 'Quantidade de ' + dadosItem[1]);
+        adicionar.type = 'button';
+        adicionar.textContent = 'Adicionar à cesta';
+
+        adicionar.addEventListener('click', function () {
+            const valor = Number(quantidade.value);
+            if (valor > 0) {
+                adicionarNaCesta(nomeCategoria, dadosItem[1], valor);
+            }
+        });
+
+        item.append(icone, nome, quantidade, adicionar);
+        lista.append(item);
+    });
+
+    botoes.forEach(function (botao) {
+        const selecionado = botao.dataset.categoria === nomeCategoria;
+        botao.setAttribute('aria-pressed', selecionado);
     });
 }
 
-botoes.forEach((botao) => {
-    botao.addEventListener('click', () => mostrarCategoria(botao.dataset.categoria));
+botoes.forEach(function (botao) {
+    botao.addEventListener('click', function () {
+        mostrarCategoria(botao.dataset.categoria);
+    });
 });
 
-limparCesta.addEventListener('click', () => {
-    cesta.clear();
+document.querySelector('#limpar-cesta').addEventListener('click', function () {
+    cesta = [];
     mostrarCesta();
 });
 
-recuperarCesta();
-const categoriaInicial = new URLSearchParams(window.location.search).get('categoria');
-mostrarCategoria(categorias[categoriaInicial] ? categoriaInicial : 'roupas');
+const categoriaDaUrl = new URLSearchParams(window.location.search).get('categoria');
+mostrarCategoria(categorias[categoriaDaUrl] ? categoriaDaUrl : 'roupas');
 mostrarCesta();
-seletor.hidden = false;
+secao.hidden = false;

@@ -16,6 +16,7 @@
             <a href="locais.html">Locais</a>
             <a href="quero-doar.html" aria-current="page">Quero doar</a>
             <a href="sobre.html">Sobre</a>
+            <a class="menu-entrar" href="login.html">Entrar</a>
         </nav>
     </header>
 
@@ -42,12 +43,25 @@
                         <ul class="lista-tipos" id="lista-tipos"></ul>
                     </section>
                     <section class="cesta-doacao" aria-labelledby="titulo-cesta">
-                        <h2 id="titulo-cesta">Sua cesta de doações</h2>
-                        <p id="cesta-vazia">Você ainda não escolheu nenhum item.</p>
+                        <header class="cesta-cabecalho">
+                            <span class="cesta-icone" aria-hidden="true">🧺</span>
+                            <div>
+                                <h2 id="titulo-cesta">Sua cesta de doações</h2>
+                                <p>Confira os itens antes de encontrar um ponto de entrega.</p>
+                            </div>
+                        </header>
+                        <div id="cesta-vazia" class="cesta-vazia">
+                            <span aria-hidden="true">＋</span>
+                            <p>Você ainda não escolheu nenhum item.</p>
+                            <small>Use os botões acima para montar sua doação.</small>
+                        </div>
                         <ul id="itens-cesta" aria-live="polite"></ul>
                         <div class="cesta-resumo" hidden>
-                            <strong id="total-cesta"></strong>
-                            <button id="limpar-cesta" type="button">Esvaziar cesta</button>
+                            <div>
+                                <span>Total da cesta</span>
+                                <strong id="total-cesta"></strong>
+                            </div>
+                            <button id="limpar-cesta" type="button"><span aria-hidden="true">↻</span> Esvaziar cesta</button>
                         </div>
                     </section>
                     <a class="botao botao-principal" id="ver-locais" href="locais.html">Encontrar pontos de doação</a>
